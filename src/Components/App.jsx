@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
-import MainMenu from './MainMenu'
-import Visual from './Visual'
+import MainMenu from './MainMenu.jsx'
+import Visual from './Visual.jsx'
 
 class App extends Component {
   render() {
