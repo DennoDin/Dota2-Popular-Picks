@@ -11,7 +11,7 @@ export default class MainMenu extends Component {
     return(
       <div>
         <h1 className="Title">Dota 2 Popular Heroes</h1>
-        {this.props.selectedTeam === 'None' ? <text>Please select a team!</text> : <text>Selected team is {this.props.selectedTeam}</text>}
+        {this.props.selectedTeam === 'None' ? <h3>Please select a team!</h3> : <h3>Selected team is {this.props.selectedTeam}</h3>}
       </div>
     )
   }
