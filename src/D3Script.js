@@ -1,26 +1,31 @@
 const d3 = require('d3')
 const axios = require('axios')
 
-async function getHeroes() {
+const MATCHES = 20; //number of matches to get
+
+async function getHeroes() { //GETS ALL HERO INFORMATION
   const result = await axios.get('https://api.opendota.com/api/heroes');
   return result;
 }
 
-const MATCHES = 20; //number of matches to get
-
-async function getSecretLastFifty() {
+//GETS MATCH DATA FOR SPECIFIED TEAM
+// !!! CURRENTLY SET FOR TEAM SECRET !!!
+// TODO: MODIFY PARAMETERS/ARGS TO TAKE TEAM ID
+async function getMatches() { 
   const result = await axios.get('https://api.opendota.com/api/teams/1838315/matches');
-  const secretMatches = result.data.map((match) => {
+  const matches = result.data.map((match) => {
     return {
       id: match.match_id,
       radiant: match.radiant,
     }
   }).slice(0, MATCHES);
-  return secretMatches;
+  return matches;
 }
 
-async function secretHeroes() {
-  const matchInfo = await getSecretLastFifty(); //calls function to get last matches
+// GETS THE SELECTED HEROES FROM MATCHES PICKED BY THE SELECTED TEAM
+// TODO: MODIFY PARAMETERS TO TAKE TEAM ID AND PASS TO getMatches()
+async function getPickedHeroes() {
+  const matchInfo = await getMatches(); //calls function to get last matches
   const promiseArray = [];
   const apiStrings = matchInfo.map(match => ({ //converts matchInfo into api calls
     api: `https://api.opendota.com/api/matches/${match.id}`
@@ -76,12 +81,12 @@ async function secretHeroes() {
     })
 
   })
-  console.log(mergedInfo);
+  // console.log(mergedInfo);
   return { children: mergedInfo };
 }
 
 async function runD3(divName) {
-  const dataset = await secretHeroes();
+  const dataset = await getPickedHeroes();
 
   const diameter = 600;
   const color = d3.scaleOrdinal(d3.schemeCategory20);
