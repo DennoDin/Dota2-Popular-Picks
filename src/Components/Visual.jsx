@@ -7,7 +7,7 @@ export class Visual extends Component {
 
   async componentDidMount(){
     const faux = this.props.connectFauxDOM('div', 'chart');
-    await runD3(faux);
+    await runD3(faux, this.props.selectedId);
     this.props.animateFauxDOM(800);
   }
 
