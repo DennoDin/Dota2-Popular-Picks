@@ -2,6 +2,7 @@ const d3 = require('d3')
 const axios = require('axios')
 
 const MATCHES = 20; //number of matches to get
+const DEFAULT = 1838315 //DEFAULT TEAM ID: Team Secret
 
 async function getHeroes() { //GETS ALL HERO INFORMATION
   const result = await axios.get('https://api.opendota.com/api/heroes');
@@ -9,10 +10,11 @@ async function getHeroes() { //GETS ALL HERO INFORMATION
 }
 
 //GETS MATCH DATA FOR SPECIFIED TEAM
-// !!! CURRENTLY SET FOR TEAM SECRET !!!
-// TODO: MODIFY PARAMETERS/ARGS TO TAKE TEAM ID
-async function getMatches() { 
-  const result = await axios.get('https://api.opendota.com/api/teams/1838315/matches');
+// DEFAULT TEAM ID IS CALLED IF FUNCTION IS CALLED WITHOUT ARGUMENT
+async function getMatches(teamId) { 
+  let id;
+  typeof teamId === 'undefined' ? id = DEFAULT : id = teamId;
+  const result = await axios.get('https://api.opendota.com/api/teams/' + id + '/matches');
   const matches = result.data.map((match) => {
     return {
       id: match.match_id,
