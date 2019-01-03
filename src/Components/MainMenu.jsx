@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import '../CSS/MainMenu.css'
 
 export default class MainMenu extends Component {
-  constructor(props){
-    super(props);
-  }
 
   render() {
     return(
