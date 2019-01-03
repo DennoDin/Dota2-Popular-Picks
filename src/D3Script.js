@@ -25,9 +25,8 @@ async function getMatches(teamId) {
 }
 
 // GETS THE SELECTED HEROES FROM MATCHES PICKED BY THE SELECTED TEAM
-// TODO: MODIFY PARAMETERS TO TAKE TEAM ID AND PASS TO getMatches()
-async function getPickedHeroes() {
-  const matchInfo = await getMatches(); //calls function to get last matches
+async function getPickedHeroes(teamId) {
+  const matchInfo = await getMatches(teamId); //calls function to get last matches
   const promiseArray = [];
   const apiStrings = matchInfo.map(match => ({ //converts matchInfo into api calls
     api: `https://api.opendota.com/api/matches/${match.id}`
@@ -87,8 +86,8 @@ async function getPickedHeroes() {
   return { children: mergedInfo };
 }
 
-async function runD3(divName) {
-  const dataset = await getPickedHeroes();
+async function runD3(divName, teamId) {
+  const dataset = await getPickedHeroes(teamId);
 
   const diameter = 600;
   const color = d3.scaleOrdinal(d3.schemeCategory20);
